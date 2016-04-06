@@ -13,6 +13,8 @@ public class QuizActivity extends AppCompatActivity {
 
     private static final String TAG = "QuizActivity";
 
+    private static final String KEY_INDEX = "KEY_INDEX";
+
     // UI views
     private TextView mQuestionView = null;
     private Button mTrueBtn = null;
@@ -29,6 +31,10 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+
+        if (savedInstanceState != null) {
+            mCurrentQuestion = savedInstanceState.getInt(KEY_INDEX);
+        }
 
         mQuestionView = (TextView) this.findViewById(R.id.questionView);
         mTrueBtn = (Button) this.findViewById(R.id.trueBtn);
@@ -87,7 +93,13 @@ public class QuizActivity extends AppCompatActivity {
         updateQuestion(mQuestionList.get(mCurrentQuestion));
     }
 
-    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(KEY_INDEX, mCurrentQuestion);
+    }
+
     private void initQuestionList() {
         mQuestionList.add(new Question(R.string.question_oceans, true));
         mQuestionList.add(new Question(R.string.question_mideast, false));
